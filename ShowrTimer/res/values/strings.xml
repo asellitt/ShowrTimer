@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, ShowrTimerActivity!</string>
+    <string name="app_name">ShowrTimer</string>
+    <string name="separator_view_text">:</string>
+    <string name="start_pause_button_text">Start/Pause</string>
+    <string name="stop_reset_button_text">Stop/Reset</string>
+    <string name="minor_view_text">Minor Interval</string>
+    <string name="minor_post_view_text">(seconds)</string>
+    <string name="major_view_text">Major Interval</string>
+    <string name="major_post_view_text">(minutes)</string>
+    <string name="add_button_text">Add</string>
+
+</resources>
