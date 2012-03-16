@@ -3,8 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <LinearLayout
+    <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,9 +14,8 @@
             android:id="@+id/minutesView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="07"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="200dp" />
+            android:textSize="180dp" />
 
         <TextView
             android:id="@+id/separatorView"
@@ -25,15 +23,14 @@
             android:layout_height="wrap_content"
             android:text="@string/separator_view_text"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="200dp" />
+            android:textSize="180dp" />
 
         <TextView
             android:id="@+id/secondsView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="59"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="200dp" />
+            android:textSize="180dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,17 +39,20 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal" >
-        <Button
+
+        <Button
             android:id="@+id/startPauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_pause_button_text" />
+            android:onClick="startPauseClicked"
+            android:text="@string/start" />
 
         <Button
             android:id="@+id/stopResetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stop_reset_button_text" />
+            android:onClick="stopRestartClicked"
+            android:text="@string/clear" />
     </LinearLayout>
 
 </LinearLayout>
