@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import au.com.hacd.android.showrtimer.R;
+
 public class Settings {
 
 	private static Settings instance;
@@ -30,7 +32,7 @@ public class Settings {
 	
 	private void load() {
 		String minorKey = "minor";
-		Integer minorVal = 10;
+		Integer minorVal = 30;
 		this.settings.put(minorKey, minorVal);
 		
 		String majorKey = "major";

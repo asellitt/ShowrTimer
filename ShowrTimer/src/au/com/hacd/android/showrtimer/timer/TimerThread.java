@@ -1,15 +1,15 @@
 package au.com.hacd.android.showrtimer.timer;
 
 import android.util.Log;
-import au.com.hacd.android.showrtimer.activity.ShowrTimerActivity;
+import au.com.hacd.android.showrtimer.activity.MainActivity;
 
 public class TimerThread extends Thread implements Runnable {
 	private static final String TAG = "TimerRunner";
 	
-	private ShowrTimerActivity activity;
+	private MainActivity activity;
 	private volatile boolean stop;
 	
-	public TimerThread(ShowrTimerActivity activity) {
+	public TimerThread(MainActivity activity) {
 		this.activity = activity;
 	}
 	

@@ -3,7 +3,6 @@ package au.com.hacd.android.showrtimer.activity;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import au.com.hacd.android.showrtimer.R;
-import au.com.hacd.android.showrtimer.R.id;
-import au.com.hacd.android.showrtimer.R.layout;
-import au.com.hacd.android.showrtimer.R.string;
 import au.com.hacd.android.showrtimer.settings.Settings;
+import au.com.hacd.android.showrtimer.sound.SoundPlayer;
 import au.com.hacd.android.showrtimer.timer.TimerThread;
 
 public class MainActivity extends Activity {
@@ -25,6 +22,9 @@ public class MainActivity extends Activity {
 
 	private TimerThread timer;
 	
+	private SoundPlayer major;
+	private SoundPlayer minor;
+	
 	private Settings settings;
 
 	@Override
@@ -33,6 +33,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 
 		this.timer = new TimerThread(this);
+		
+		this.major = new SoundPlayer(this.getApplicationContext(), R.raw.major);
+		this.minor = new SoundPlayer(this.getApplicationContext(), R.raw.minor);
 
 		this.settings = Settings.getInstance();
 		
@@ -133,6 +136,7 @@ public class MainActivity extends Activity {
 			Log.d(MainActivity.TAG, "major interval encountered");
 			minutes.setTextColor(Color.CYAN);
 			seconds.setTextColor(Color.CYAN);
+			this.major.start();
 		}
 		// check if minor interval
 		else if (
@@ -142,6 +146,7 @@ public class MainActivity extends Activity {
 			Log.d(MainActivity.TAG, "minor interval encountered");
 			minutes.setTextColor(Color.YELLOW);
 			seconds.setTextColor(Color.YELLOW);
+			this.minor.start();
 		}
 		// no interval
 		else {
