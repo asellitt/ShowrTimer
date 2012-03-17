@@ -1,11 +1,21 @@
-package au.com.hacd.android.showrtimer;
+package au.com.hacd.android.showrtimer.activity;
+
+import java.util.List;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import au.com.hacd.android.showrtimer.R;
+import au.com.hacd.android.showrtimer.R.id;
+import au.com.hacd.android.showrtimer.R.layout;
+import au.com.hacd.android.showrtimer.R.string;
+import au.com.hacd.android.showrtimer.settings.Settings;
+import au.com.hacd.android.showrtimer.timer.TimerThread;
 
 public class ShowrTimerActivity extends Activity {
 	private static final String TAG = "ShowrTimerActivity";
@@ -14,6 +24,8 @@ public class ShowrTimerActivity extends Activity {
 	private int minutes;
 
 	private TimerThread timer;
+	
+	private Settings settings;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +34,8 @@ public class ShowrTimerActivity extends Activity {
 
 		this.timer = new TimerThread(this);
 
+		this.settings = Settings.getInstance();
+		
 		this.reset();
 		this.update();
 	}
@@ -109,6 +123,30 @@ public class ShowrTimerActivity extends Activity {
 		else {
 			startPause.setText(R.string.start);
 			stopReset.setText(R.string.clear);
+		}
+		
+		// check if major interval
+		if(
+				((List<Integer>) this.settings.get("major")).contains(this.minutes) &&
+				this.seconds == 0
+		) {
+			Log.d(ShowrTimerActivity.TAG, "major interval encountered");
+			minutes.setTextColor(Color.CYAN);
+			seconds.setTextColor(Color.CYAN);
+		}
+		// check if minor interval
+		else if (
+				((this.seconds + 60) % ((Integer) this.settings.get("minor")) == 0) &&
+				!(this.seconds == 0 && this.minutes == 0)
+		) {
+			Log.d(ShowrTimerActivity.TAG, "minor interval encountered");
+			minutes.setTextColor(Color.YELLOW);
+			seconds.setTextColor(Color.YELLOW);
+		}
+		// no interval
+		else {
+			minutes.setTextColor(Color.WHITE);
+			seconds.setTextColor(Color.WHITE);
 		}
 	}
 	
