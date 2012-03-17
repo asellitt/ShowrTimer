@@ -1,7 +1,5 @@
 package au.com.hacd.android.showrtimer.sound;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;

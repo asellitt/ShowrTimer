@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 		this.major = new SoundPlayer(this.getApplicationContext(), R.raw.major);
 		this.minor = new SoundPlayer(this.getApplicationContext(), R.raw.minor);
 
-		this.settings = Settings.getInstance();
+		this.settings = Settings.getInstance(this.getApplicationContext());
 		
 		this.reset();
 		this.update();
@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
 	/**
 	 * Updates the display
 	 */
+	@SuppressWarnings("unchecked")
 	public void update() {
 		// set time
 		TextView minutes = (TextView) this.findViewById(R.id.minutesView);
