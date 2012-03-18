@@ -28,6 +28,8 @@ public class Settings {
 		// load the preference file
 		this.preferences = context.getSharedPreferences(Settings.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
 		this.editor = this.preferences.edit();
+		this.editor.clear();
+		this.editor.commit();
 	}
 	
 	public static Settings getInstance(Context context) {
@@ -55,7 +57,7 @@ public class Settings {
 		Log.d(Settings.TAG, ">>> put()");
 		
 		this.settings.put(key, value);
-
+		/*
 		// if this is the major list
 		if(key.equalsIgnoreCase("major")) {
 			Log.d(Settings.TAG, "saving major interval");
@@ -75,7 +77,7 @@ public class Settings {
 		}
 		
 		this.editor.commit();
-		
+		*/
 		Log.d(Settings.TAG, "<<< put()");
 	}
 	
