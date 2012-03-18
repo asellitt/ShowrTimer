@@ -34,6 +34,8 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d(MainActivity.TAG, ">>> onCreate()");
+		
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
 
@@ -49,12 +51,19 @@ public class MainActivity extends Activity {
 		
 		this.reset();
 		this.update();
+		
+		Log.d(MainActivity.TAG, "<<< onCreate()");
 	}
 	
 	@Override
 	public void onDestroy() {
+		Log.d(MainActivity.TAG, ">>> onDestroy()");
+		super.onDestroy();
+		
 		// stop the timer thread
 		this.timer.stop();
+		
+		Log.d(MainActivity.TAG, "<<< onDestroy()");
 	}
 	
 	@Override
@@ -83,14 +92,19 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d(MainActivity.TAG, ">>> onOptionsItemSelected()");
+		
+		boolean success = false;
 		// if this is the settings menu item
 		if(item.getItemId() == R.id.settingsItem) {
 			Intent intent = new Intent(this, SettingsActivity.class);
 			this.startActivity(intent);
-			return true;
+			success = true;
 		}
 		
-		return false;
+		Log.d(MainActivity.TAG, "<<< onOptionsItemSelected()");
+		
+		return success;
 	}
 
 	public void startPauseClicked(View v) {
@@ -142,6 +156,8 @@ public class MainActivity extends Activity {
 	 * Increments the timer
 	 */
 	public void increment() {
+		Log.d(MainActivity.TAG, ">>> increment()");
+		
 		if (this.seconds == 59) {
 			this.seconds = 0;
 			this.minutes++;
@@ -149,6 +165,8 @@ public class MainActivity extends Activity {
 		else {
 			this.seconds++;
 		}
+		
+		Log.d(MainActivity.TAG, "<<< increment()");
 	}
 
 	/**
@@ -156,6 +174,8 @@ public class MainActivity extends Activity {
 	 */
 	@SuppressWarnings("unchecked")
 	public void update() {
+		Log.d(MainActivity.TAG, ">>> update()");
+		
 		// set time
 		TextView minutes = (TextView) this.findViewById(R.id.minutesView);
 		TextView seconds = (TextView) this.findViewById(R.id.secondsView);
@@ -204,21 +224,31 @@ public class MainActivity extends Activity {
 			minutes.setTextColor(Color.WHITE);
 			seconds.setTextColor(Color.WHITE);
 		}
+		
+		Log.d(MainActivity.TAG, "<<< update()");
 	}
 	
 	/**
 	 * Resets the timer
 	 */
 	private void reset() {
+		Log.d(MainActivity.TAG, ">>> reset()");
+		
 		this.seconds = 0;
 		this.minutes = 0;
+		
+		Log.d(MainActivity.TAG, "<<< reset()");
 	}
 	
 	/**
 	 * Resets the display
 	 */
 	private void clear() {
+		Log.d(MainActivity.TAG, ">>> clear()");
+		
 		this.reset();
 		this.update();
+		
+		Log.d(MainActivity.TAG, "<<< clear()");
 	}
 }
