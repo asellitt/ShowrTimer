@@ -52,6 +52,12 @@ public class MainActivity extends Activity {
 	}
 	
 	@Override
+	public void onDestroy() {
+		// stop the timer thread
+		this.timer.stop();
+	}
+	
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		Log.d(MainActivity.TAG, ">>> onPrepareOptionsMenu()");
 		
