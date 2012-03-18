@@ -3,9 +3,13 @@ package au.com.hacd.android.showrtimer.activity;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,7 +19,7 @@ import au.com.hacd.android.showrtimer.sound.SoundPlayer;
 import au.com.hacd.android.showrtimer.timer.TimerThread;
 
 public class MainActivity extends Activity {
-	private static final String TAG = "ShowrTimerActivity";
+	private static final String TAG = "MainActivity";
 
 	private int seconds;
 	private int minutes;
@@ -41,6 +45,42 @@ public class MainActivity extends Activity {
 		
 		this.reset();
 		this.update();
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		Log.d(MainActivity.TAG, ">>> onPrepareOptionsMenu()");
+		
+		// update menu items
+		menu.setGroupVisible(R.id.mainGroup, true);
+		menu.setGroupVisible(R.id.settingsGroup, false);
+		
+		Log.d(MainActivity.TAG, "<<< onPrepareOptionsMenu()");
+		return true;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.d(MainActivity.TAG, ">>> onCreateOptionsMenu()");
+		
+		// inflate menu
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		
+		Log.d(MainActivity.TAG, "<<< onCreateOptionsMenu()");
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// if this is the settings menu item
+		if(item.getItemId() == R.id.settingsItem) {
+			Intent intent = new Intent(this, SettingsActivity.class);
+			this.startActivity(intent);
+			return true;
+		}
+		
+		return false;
 	}
 
 	public void startPauseClicked(View v) {

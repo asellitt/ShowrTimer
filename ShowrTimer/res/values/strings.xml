@@ -12,5 +12,7 @@
     <string name="major_view_text">Major Interval</string>
     <string name="major_post_view_text">(minutes)</string>
     <string name="add_button_text">Add</string>
+    <string name="settings">Settings</string>
+    <string name="main">Timer</string>
 
 </resources>

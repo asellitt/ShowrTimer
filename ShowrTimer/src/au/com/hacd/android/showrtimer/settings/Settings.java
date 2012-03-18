@@ -18,7 +18,6 @@ public class Settings {
 	private static final String PREFERENCE_FILE_NAME = "Settings";
 	private SharedPreferences preferences;
 	private Editor editor;
-	private Context context;
 	
 	private Settings(Context context) {
 		Settings.instance = this;
@@ -44,7 +43,7 @@ public class Settings {
 	
 	private void load() {
 		// load the minor interval
-		this.settings.put("minor", this.preferences.getInt("minor", 10));
+		this.settings.put("minor", this.preferences.getInt("minor", 30));
 		
 		// load the major intervals list
 		String majorKey = "major";
