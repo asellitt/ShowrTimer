@@ -150,12 +150,9 @@ public class MainActivity extends Activity {
 				this.timer.notify();
 			}
 		}
-		// if the thread has stopped
-		else {
-			Log.d(MainActivity.TAG, "stopRestartClicked() : Timer stopped. Clearing display");
-			// reset the display
-			this.clear();
-		}
+		
+		// reset the display
+		this.clear();
 		
 		// update button text
 		updateButtonText(R.id.startPauseButton, R.string.start);
