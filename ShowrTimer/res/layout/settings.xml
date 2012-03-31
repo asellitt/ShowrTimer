@@ -13,21 +13,23 @@
 
         <TextView
             android:id="@+id/minorView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.34"
             android:layout_height="wrap_content"
             android:text="@string/minor_view_text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/minorText"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/minorSpinner"
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="numberDecimal" />
+            android:prompt="@string/minor_view_text" />
 
         <TextView
             android:id="@+id/minorPostView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
             android:layout_height="wrap_content"
             android:text="@string/minor_post_view_text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -49,28 +51,31 @@
 
             <TextView
                 android:id="@+id/majorView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+            	android:layout_weight="0.34"
                 android:layout_height="wrap_content"
                 android:text="@string/major_view_text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <EditText
                 android:id="@+id/majorText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+            	android:layout_weight="0.33"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:inputType="numberDecimal" />
 
             <TextView
                 android:id="@+id/majorPostView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+            	android:layout_weight="0.22"
                 android:layout_height="wrap_content"
                 android:text="@string/major_post_view_text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/majorButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+            	android:layout_weight="0.11"
                 android:layout_height="wrap_content"
                 android:onClick="addMajorClicked"
                 android:text="@string/add_button_text" />

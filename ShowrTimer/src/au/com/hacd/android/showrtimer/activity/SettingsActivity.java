@@ -12,8 +12,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import au.com.hacd.android.showrtimer.R;
 import au.com.hacd.android.showrtimer.settings.Settings;
 
@@ -37,8 +40,16 @@ public class SettingsActivity extends ListActivity {
 		this.settings = Settings.getInstance(this.getApplicationContext());
 		
 		// prepopulate ui
-		EditText minorEditText = (EditText) this.findViewById(R.id.minorText);
-		minorEditText.setText(this.settings.get("minor").toString());
+		Spinner minorSpinner = (Spinner) this.findViewById(R.id.minorSpinner);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+	            this, 
+	            R.array.minor_array, 
+	            android.R.layout.simple_spinner_item
+        );
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    minorSpinner.setAdapter(adapter);
+	    minorSpinner.setOnItemSelectedListener(new OnMinorSelectedListener());
+
 		
 		// convert major Integers into display strings
 		this.majorInts = ((List<Integer>) this.settings.get("major"));
@@ -134,5 +145,23 @@ public class SettingsActivity extends ListActivity {
 		Log.d(SettingsActivity.TAG, "<<< onOptionsItemSelected()");
 		
 		return success;
+	}
+	
+	private class OnMinorSelectedListener implements OnItemSelectedListener {
+
+		private static final String TAG = "OnMinorSelectedListener";
+		
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			Log.d(OnMinorSelectedListener.TAG, ">>> onItemSelected()");
+			
+			String val = parent.getItemAtPosition(pos).toString();
+			Log.d(OnMinorSelectedListener.TAG, "index:" + pos + ", value:" + val);
+			
+			settings.put(Settings.MINOR_SETTING, val);
+			
+			Log.d(OnMinorSelectedListener.TAG, "<<< onItemSelected()");
+		}
+
+		public void onNothingSelected(AdapterView parent) { }
 	}
 }

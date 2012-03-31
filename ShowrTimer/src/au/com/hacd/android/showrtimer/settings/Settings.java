@@ -11,6 +11,13 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 public class Settings {
+	
+	/*
+	 * Settings constants
+	 */
+	public static final String MINOR_SETTING = "minor";
+	public static final String MAJOR_SETTING = "major";
+	
 	private static final String TAG = "Settings";
 	
 	private static Settings instance;
@@ -84,21 +91,20 @@ public class Settings {
 	private void load() {
 		Log.d(Settings.TAG, ">>> load()");
 		// load the minor interval
-		this.settings.put("minor", this.preferences.getInt("minor", 30));
+		this.settings.put(MINOR_SETTING, this.preferences.getInt(MINOR_SETTING, 30));
 		
 		// load the major intervals list
-		String majorKey = "major";
 		List<Integer> majorVals = new ArrayList<Integer>();
-		majorVals.add(this.preferences.getInt(majorKey + "_0", 1));
-		majorVals.add(this.preferences.getInt(majorKey + "_1", 5));
-		majorVals.add(this.preferences.getInt(majorKey + "_2", 7));
+		majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_0", 1));
+		majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_1", 5));
+		majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_2", 7));
 		
 		int index = 3;
-		while(this.preferences.getInt(majorKey + "_" + index, 0) != 0) {
-			majorVals.add(this.preferences.getInt(majorKey + "_" + index, 0));
+		while(this.preferences.getInt(MAJOR_SETTING + "_" + index, 0) != 0) {
+			majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_" + index, 0));
 		}
 		
-		this.settings.put(majorKey, majorVals);
+		this.settings.put(MAJOR_SETTING, majorVals);
 		
 		Log.d(Settings.TAG, "<<< load()");
 	}
