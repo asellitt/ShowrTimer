@@ -201,8 +201,7 @@ public class MainActivity extends Activity {
 				this.seconds == 0
 		) {
 			Log.d(MainActivity.TAG, "major interval encountered");
-			minutes.setTextColor(Color.RED);
-			seconds.setTextColor(Color.RED);
+			setTextColor(Color.RED, R.id.minutesView, R.id.secondsView, R.id.separatorView);
 			this.major.start();
 		}
 		// check if minor interval
@@ -211,14 +210,12 @@ public class MainActivity extends Activity {
 				!(this.seconds == 0 && this.minutes == 0)
 		) {
 			Log.d(MainActivity.TAG, "minor interval encountered");
-			minutes.setTextColor(Color.YELLOW);
-			seconds.setTextColor(Color.YELLOW);
+			setTextColor(Color.YELLOW, R.id.minutesView, R.id.secondsView, R.id.separatorView);
 			this.minor.start();
 		}
 		// no interval
 		else {
-			minutes.setTextColor(Color.GREEN);
-			seconds.setTextColor(Color.GREEN);
+			setTextColor(Color.BLUE, R.id.minutesView, R.id.secondsView, R.id.separatorView);
 		}
 		
 		Log.d(MainActivity.TAG, "<<< update()");
@@ -251,5 +248,13 @@ public class MainActivity extends Activity {
 	private void updateButtonText(int buttonId, int stringId) {
 		Button btn = (Button) this.findViewById(buttonId);
 		btn.setText(stringId);
+	}
+	
+	private void setTextColor(int color, int ... textIds) {
+		for(int textId : textIds) {
+			TextView txt = (TextView) this.findViewById(textId);
+			txt.setTextColor(color);
+			txt.setShadowLayer(10, 1, 1, color);
+		}
 	}
 }

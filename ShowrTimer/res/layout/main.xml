@@ -16,6 +16,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#0000FF" 
+            android:shadowColor="#0000FF" 
+            android:shadowDx="1" 
+            android:shadowDy="1" 
+            android:shadowRadius="10" 
             android:textSize="180dp" />
 
         <TextView
@@ -24,6 +29,11 @@
             android:layout_height="wrap_content"
             android:text="@string/separator_view_text"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#0000FF" 
+            android:shadowColor="#0000FF" 
+            android:shadowDx="1" 
+            android:shadowDy="1" 
+            android:shadowRadius="10"
             android:textSize="180dp" />
 
         <TextView
@@ -31,6 +41,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#0000FF" 
+            android:shadowColor="#0000FF" 
+            android:shadowDx="1" 
+            android:shadowDy="1" 
+            android:shadowRadius="10" 
             android:textSize="180dp" />
     </LinearLayout>
 
@@ -48,7 +63,9 @@
             android:layout_height="wrap_content"
             android:onClick="startPauseClicked"
             android:text="@string/start"
-            android:textSize="30dp" />
+            android:textSize="30dp" 
+            android:textColor="#0000FF"
+            android:background="@drawable/button" />
 
         <Button
             android:id="@+id/stopResetButton"
@@ -57,7 +74,9 @@
             android:layout_height="wrap_content"
             android:onClick="stopRestartClicked"
             android:text="@string/clear"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:textColor="#0000FF"
+            android:background="@drawable/button" />
     </LinearLayout>
 
 </LinearLayout>
