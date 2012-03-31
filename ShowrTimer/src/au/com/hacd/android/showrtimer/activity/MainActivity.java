@@ -116,6 +116,10 @@ public class MainActivity extends Activity {
 			Log.d(MainActivity.TAG, "startPauseClicked() : Timer not started. Starting now");
 			this.timer = new TimerThread(this);
 			this.timer.start();
+			
+			// update button text
+			updateButtonText(R.id.startPauseButton, R.string.pause);
+			updateButtonText(R.id.stopResetButton, R.string.stop);
 		}
 		// if the timer has started
 		else {
@@ -125,6 +129,10 @@ public class MainActivity extends Activity {
 			synchronized (this.timer) {
 				this.timer.notify();
 			}
+			
+			// update button text
+			updateButtonText(R.id.startPauseButton, R.string.start);
+			updateButtonText(R.id.stopResetButton, R.string.clear);
 		}
 
 		Log.d(MainActivity.TAG, "<<< startPauseClicked()");
@@ -148,6 +156,10 @@ public class MainActivity extends Activity {
 			// reset the display
 			this.clear();
 		}
+		
+		// update button text
+		updateButtonText(R.id.startPauseButton, R.string.start);
+		updateButtonText(R.id.stopResetButton, R.string.clear);
 		
 		Log.d(MainActivity.TAG, "<<< stopRestartClicked()");
 	}
@@ -186,27 +198,14 @@ public class MainActivity extends Activity {
 		minutes.setText(minStr);
 		seconds.setText(secStr);
 		
-		// set actions
-		Button startPause = (Button) this.findViewById(R.id.startPauseButton);
-		Button stopReset = (Button) this.findViewById(R.id.stopResetButton);
-		
-		if(this.timer.isAlive()) {
-			startPause.setText(R.string.stop);
-			stopReset.setText(R.string.stop);
-		}
-		else {
-			startPause.setText(R.string.start);
-			stopReset.setText(R.string.clear);
-		}
-		
 		// check if major interval
 		if(
 				((List<Integer>) this.settings.get("major")).contains(this.minutes) &&
 				this.seconds == 0
 		) {
 			Log.d(MainActivity.TAG, "major interval encountered");
-			minutes.setTextColor(Color.CYAN);
-			seconds.setTextColor(Color.CYAN);
+			minutes.setTextColor(Color.RED);
+			seconds.setTextColor(Color.RED);
 			this.major.start();
 		}
 		// check if minor interval
@@ -221,8 +220,8 @@ public class MainActivity extends Activity {
 		}
 		// no interval
 		else {
-			minutes.setTextColor(Color.WHITE);
-			seconds.setTextColor(Color.WHITE);
+			minutes.setTextColor(Color.GREEN);
+			seconds.setTextColor(Color.GREEN);
 		}
 		
 		Log.d(MainActivity.TAG, "<<< update()");
@@ -250,5 +249,10 @@ public class MainActivity extends Activity {
 		this.update();
 		
 		Log.d(MainActivity.TAG, "<<< clear()");
+	}
+	
+	private void updateButtonText(int buttonId, int stringId) {
+		Button btn = (Button) this.findViewById(buttonId);
+		btn.setText(stringId);
 	}
 }

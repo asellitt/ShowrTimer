@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    <LinearLayout
+
+    <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,15 +45,19 @@
             android:id="@+id/startPauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.05"
             android:onClick="startPauseClicked"
-            android:text="@string/start" />
+            android:text="@string/start"
+            android:textSize="30dp" />
 
         <Button
             android:id="@+id/stopResetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.05"
             android:onClick="stopRestartClicked"
-            android:text="@string/clear" />
+            android:text="@string/clear"
+            android:textSize="30dp" />
     </LinearLayout>
 
 </LinearLayout>

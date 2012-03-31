@@ -5,6 +5,7 @@
     <string name="app_name">ShowrTimer</string>
     <string name="separator_view_text">:</string>
     <string name="start">Start</string>
+    <string name="pause">Pause</string>
     <string name="stop">Stop</string>
     <string name="clear">Clear</string>
     <string name="minor_view_text">Minor Interval</string>
