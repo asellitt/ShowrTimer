@@ -3,8 +3,10 @@ package au.com.hacd.android.showrtimer.activity;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +24,8 @@ import au.com.hacd.android.showrtimer.timer.TimerThread;
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";
 
+	private float brightness;
+	
 	private int seconds;
 	private int minutes;
 
@@ -42,6 +46,22 @@ public class MainActivity extends Activity {
 		// ensure the screen stays on
 		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+		// save brightness
+		WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+		this.brightness = lp.screenBrightness;
+		
+		// set brightness
+		lp.screenBrightness = 1;
+		this.getWindow().setAttributes(lp);
+		
+		// set max volume
+		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+	    am.setStreamVolume(
+	    		AudioManager.STREAM_MUSIC, 
+	    		am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
+	    		0
+		);
+		
 		this.timer = new TimerThread(this);
 		
 		this.major = new SoundPlayer(this.getApplicationContext(), R.raw.major);
@@ -62,6 +82,11 @@ public class MainActivity extends Activity {
 		
 		// stop the timer thread
 		this.timer.stop();
+		
+		// restore brightness
+		WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+		lp.screenBrightness = this.brightness;
+		this.getWindow().setAttributes(lp);
 		
 		Log.d(MainActivity.TAG, "<<< onDestroy()");
 	}
@@ -215,7 +240,7 @@ public class MainActivity extends Activity {
 		}
 		// no interval
 		else {
-			setTextColor(Color.BLUE, R.id.minutesView, R.id.secondsView, R.id.separatorView);
+			setTextColor(Color.WHITE, R.id.minutesView, R.id.secondsView, R.id.separatorView);
 		}
 		
 		Log.d(MainActivity.TAG, "<<< update()");
