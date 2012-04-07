@@ -8,11 +8,14 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -28,6 +31,8 @@ public class SettingsActivity extends ListActivity {
 	private ArrayAdapter<String> majorAdaptor;
 	private List<String> majorItems;
 	private List<Integer> majorInts;
+	
+	private String[] minorArray;
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -49,8 +54,22 @@ public class SettingsActivity extends ListActivity {
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    minorSpinner.setAdapter(adapter);
 	    minorSpinner.setOnItemSelectedListener(new OnMinorSelectedListener());
+	    
+	    // set the spinner in the correct position
+	    minorArray = this.getResources().getStringArray(R.array.minor_array);
+	    Log.d(SettingsActivity.TAG, "presetting spinner index");
+	    for(int i = 0; i < minorArray.length; i++) {
+	    	Log.d(
+	    			SettingsActivity.TAG, 
+	    			"checking: array=" + minorArray[i] + ", setting=" + this.settings.get(Settings.MINOR_SETTING)
+			);
+	    	
+	    	if(minorArray[i].equalsIgnoreCase("" + this.settings.get(Settings.MINOR_SETTING))) {
+	    		minorSpinner.setSelection(i);
+	    		break;
+	    	}
+	    }
 
-		
 		// convert major Integers into display strings
 		this.majorInts = ((List<Integer>) this.settings.get("major"));
 		this.majorItems = new ArrayList<String>();
@@ -65,9 +84,34 @@ public class SettingsActivity extends ListActivity {
 				this.majorItems
 		);
 		this.setListAdapter(majorAdaptor);
-		
+	    this.registerForContextMenu(this.getListView());
+	    
 		Log.d(SettingsActivity.TAG, "<<< onCreate()");
 	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		Log.d(SettingsActivity.TAG, ">>> onCreateContextMenu()");
+		
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+		
+		Log.d(SettingsActivity.TAG, "<<< onCreateContextMenu()");
+	}
+	
+	public boolean onContextItemSelected(MenuItem item) {
+		Log.d(SettingsActivity.TAG, ">>> onContextItemSelected()");
+		
+		// remove the item from the list
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		majorAdaptor.remove(majorAdaptor.getItem(info.position));
+		
+		Log.d(SettingsActivity.TAG, "<<< onContextItemSelected()");
+		
+		return true;
+	}
+
 	
 	public void addMajorClicked(View v) {
 		Log.d(SettingsActivity.TAG, ">>> addMajorClicked()");
@@ -157,7 +201,7 @@ public class SettingsActivity extends ListActivity {
 			String val = parent.getItemAtPosition(pos).toString();
 			Log.d(OnMinorSelectedListener.TAG, "index:" + pos + ", value:" + val);
 			
-			settings.put(Settings.MINOR_SETTING, val);
+			settings.put(Settings.MINOR_SETTING, Integer.parseInt(val));
 			
 			Log.d(OnMinorSelectedListener.TAG, "<<< onItemSelected()");
 		}

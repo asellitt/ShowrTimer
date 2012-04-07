@@ -22,7 +22,7 @@ public class Settings {
 	
 	private static Settings instance;
 	
-	private Map<String, Object> settings;	
+	private Map<String, Object> settings;
 	
 	private static final String PREFERENCE_FILE_NAME = "Settings";
 	private SharedPreferences preferences;
@@ -35,8 +35,6 @@ public class Settings {
 		// load the preference file
 		this.preferences = context.getSharedPreferences(Settings.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
 		this.editor = this.preferences.edit();
-		this.editor.clear();
-		this.editor.commit();
 	}
 	
 	public static Settings getInstance(Context context) {
@@ -44,6 +42,7 @@ public class Settings {
 		
 		if(Settings.instance == null) {
 			Settings.instance = new Settings(context);
+			Log.d(Settings.TAG, "loading settings");
 			instance.load();
 		}
 		
@@ -56,52 +55,60 @@ public class Settings {
 		Log.d(Settings.TAG, ">>> get()");
 		
 		Log.d(Settings.TAG, "<<< get()");
+		
 		return this.settings.get(key);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void put(String key, Object value) {
+	public void put(String key, Integer value) {
 		Log.d(Settings.TAG, ">>> put()");
 		
-		this.settings.put(key, value);
-		/*
-		// if this is the major list
-		if(key.equalsIgnoreCase("major")) {
-			Log.d(Settings.TAG, "saving major interval");
-			// work some magic
-			List<Integer> major = (List<Integer>) value;
-			for(int i = 0; i < major.size(); i++) {
-				this.editor.putInt("major_" + i, major.get(i));
-			}
-		}
-		// if this is anything else
-		else {
-			// just add it
-			if(value instanceof Integer) {
-				Log.d(Settings.TAG, ">>> saving integer value");
-				this.editor.putInt(key, ((Integer) value));
-			}
-		}
+		this.editor.putInt(key, value);
+		this.editor.apply();
 		
-		this.editor.commit();
-		*/
+		// refresh map
+		this.load();
+		
+		Log.d(Settings.TAG, "<<< put()");
+	}
+	
+	public void put(String key, List<Integer> value) {
+		Log.d(Settings.TAG, ">>> put()");
+		
+		// convert major into comma separated string
+		String major = "";
+		for(Integer m : value) {
+			major += m + ",";
+		}
+		major.substring(0, major.length() - 1);
+		
+		this.editor.putString(key, major);
+		this.editor.apply();
+		
+		// refresh map
+		this.load();
+		
 		Log.d(Settings.TAG, "<<< put()");
 	}
 	
 	private void load() {
 		Log.d(Settings.TAG, ">>> load()");
+		
 		// load the minor interval
-		this.settings.put(MINOR_SETTING, this.preferences.getInt(MINOR_SETTING, 30));
+		Log.d(Settings.TAG, "loading minor settings");
+		Integer minor = this.preferences.getInt(MINOR_SETTING, 30);
+		Log.d(Settings.TAG, "saved minor value: " + minor);
+		this.settings.put(MINOR_SETTING, minor);
 		
 		// load the major intervals list
-		List<Integer> majorVals = new ArrayList<Integer>();
-		majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_0", 1));
-		majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_1", 5));
-		majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_2", 7));
+		Log.d(Settings.TAG, "loading major settings");
+		String majors = this.preferences.getString(MAJOR_SETTING, "1,5,7");
+		Log.d(Settings.TAG, "saved major value: " + majors);
 		
-		int index = 3;
-		while(this.preferences.getInt(MAJOR_SETTING + "_" + index, 0) != 0) {
-			majorVals.add(this.preferences.getInt(MAJOR_SETTING + "_" + index, 0));
+		// parse the major intervals
+		String[] major = majors.split(",");
+		List<Integer> majorVals = new ArrayList<Integer>();
+		for(String m : major) {
+			majorVals.add(Integer.parseInt(m));
 		}
 		
 		this.settings.put(MAJOR_SETTING, majorVals);
