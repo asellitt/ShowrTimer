@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ public class MainActivity extends Activity {
 	private SoundPlayer minor;
 	
 	private Settings settings;
+	
+	private AudioManager audioManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,10 +58,10 @@ public class MainActivity extends Activity {
 		this.getWindow().setAttributes(lp);
 		
 		// set max volume
-		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-	    am.setStreamVolume(
+		this.audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		this.audioManager.setStreamVolume(
 	    		AudioManager.STREAM_MUSIC, 
-	    		am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
+	    		this.audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 
 	    		0
 		);
 		
@@ -78,7 +81,6 @@ public class MainActivity extends Activity {
 	@Override
 	public void onDestroy() {
 		Log.d(MainActivity.TAG, ">>> onDestroy()");
-		super.onDestroy();
 		
 		// stop the timer thread
 		this.timer.stop();
@@ -88,7 +90,41 @@ public class MainActivity extends Activity {
 		lp.screenBrightness = this.brightness;
 		this.getWindow().setAttributes(lp);
 		
+		super.onDestroy();
+		
 		Log.d(MainActivity.TAG, "<<< onDestroy()");
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.d(MainActivity.TAG, ">>> onKeyDown()");
+		
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_VOLUME_UP:
+				Log.d(MainActivity.TAG, "onKeyDown() : keyCode = KeyEvent.KEYCODE_VOLUME_UP");
+				this.audioManager.adjustStreamVolume(
+						AudioManager.STREAM_MUSIC,
+						AudioManager.ADJUST_RAISE, 
+						AudioManager.FLAG_SHOW_UI
+				);
+				this.minor.start();
+			break;
+			case KeyEvent.KEYCODE_VOLUME_DOWN:
+				Log.d(MainActivity.TAG, "onKeyDown() : keyCode = KeyEvent.KEYCODE_VOLUME_DOWN");
+				this.audioManager.adjustStreamVolume(
+						AudioManager.STREAM_MUSIC,
+						AudioManager.ADJUST_LOWER, 
+						AudioManager.FLAG_SHOW_UI
+				);
+				this.minor.start();
+			break;
+			default:
+				Log.d(MainActivity.TAG, "onKeyDown() : unhandled keyCode = " + keyCode);
+			break;
+		}
+		
+		Log.d(MainActivity.TAG, "<<< onKeyDown()");
+		return super.onKeyDown(keyCode, event);
 	}
 	
 	@Override
